@@ -55,74 +55,74 @@
 `timescale 1 ps / 1ps
 
 module uart_tx
-(	data_in,
-	write_buffer,
-	reset_buffer,
-	en_16_x_baud,
-	serial_out,
-	buffer_full,
-	buffer_half_full,
-	clk);
+  (	data_in,
+    write_buffer,
+    reset_buffer,
+    en_16_x_baud,
+    serial_out,
+    buffer_full,
+    buffer_half_full,
+    clk);
 
-input[7:0] 	data_in;
-input 	write_buffer;
-input 	reset_buffer;
-input 	en_16_x_baud;
-output 	serial_out;
-output 	buffer_full;
-output 	buffer_half_full;
-input 	clk;
+   input[7:0] 	data_in;
+   input        write_buffer;
+   input        reset_buffer;
+   input        en_16_x_baud;
+   output       serial_out;
+   output       buffer_full;
+   output       buffer_half_full;
+   input        clk;
 
-wire  [7:0] data_in;
-wire   	write_buffer;
-wire   	reset_buffer;
-wire   	en_16_x_baud;
-wire   	serial_out;
-wire   	buffer_full;
-wire   	buffer_half_full;
-wire   	clk;
+   wire [7:0]   data_in;
+   wire         write_buffer;
+   wire         reset_buffer;
+   wire         en_16_x_baud;
+   wire         serial_out;
+   wire         buffer_full;
+   wire         buffer_half_full;
+   wire         clk;
 
-//----------------------------------------------------------------------------------
-//
-// Start of UART_TX
-//	 
-//
-//----------------------------------------------------------------------------------
-//
-// Signals used in UART_TX
-//
-//----------------------------------------------------------------------------------
-//
-wire [7:0] 	fifo_data_out;
-wire  	fifo_data_present;
-wire  	fifo_read;
-//
-//----------------------------------------------------------------------------------
-//
-// Start of UART_TX circuit description
-//
-//----------------------------------------------------------------------------------
-//	
+   //----------------------------------------------------------------------------------
+   //
+   // Start of UART_TX
+   //	 
+   //
+   //----------------------------------------------------------------------------------
+   //
+   // Signals used in UART_TX
+   //
+   //----------------------------------------------------------------------------------
+   //
+   wire [7:0]   fifo_data_out;
+   wire         fifo_data_present;
+   wire         fifo_read;
+   //
+   //----------------------------------------------------------------------------------
+   //
+   // Start of UART_TX circuit description
+   //
+   //----------------------------------------------------------------------------------
+   //	
 
-  // 8 to 1 multiplexer to convert parallel data to serial
-kcuart_tx kcuart
-(	.data_in(fifo_data_out),
-    	.send_character(fifo_data_present),
-    	.en_16_x_baud(en_16_x_baud),
-    	.serial_out(serial_out),
-    	.Tx_complete(fifo_read),
-    	.clk(clk));
+   // 8 to 1 multiplexer to convert parallel data to serial
+   kcuart_tx kcuart
+     (	.data_in(fifo_data_out),
+        .send_character(fifo_data_present),
+        .en_16_x_baud(en_16_x_baud),
+        .serial_out(serial_out),
+        .Tx_complete(fifo_read),
+        .clk(clk));
 
-bbfifo_16x8 buf_0
-(	.data_in(data_in),
-    	.data_out(fifo_data_out),
-    	.reset(reset_buffer),
-    	.write(write_buffer),
-    	.read(fifo_read),
-    	.full(buffer_full),
-    	.half_full(buffer_half_full),
-    	.data_present(fifo_data_present),
-    	.clk(clk));
+   bbfifo_16x8 buf_0
+     (	.data_in(data_in),
+        .data_out(fifo_data_out),
+        .reset(reset_buffer),
+        .write(write_buffer),
+        .read(fifo_read),
+        .full(buffer_full),
+        .half_full(buffer_half_full),
+        .data_present(fifo_data_present),
+        .clk(clk));
 
 endmodule
 
